@@ -20,6 +20,12 @@
                 variant="outlined"
                 v-model="imgUrl"
               />
+              <v-text-field
+                label="Date (yyyy-mm-dd)"
+                variant="outlined"
+                v-model="date"
+                :placeholder="today()"
+              />
               <TagSearch
                 :tags="tags"
                 editor
@@ -50,7 +56,11 @@ export default {
     body: "",
     chosenTags: [],
     imgUrl: "",
+    date: "",
   }),
+  created() {
+    this.date = this.today();
+  },
   methods: {
     create() {
       const newRecipe = {
@@ -58,8 +68,17 @@ export default {
         body: this.body,
         tags: this.chosenTags,
         img: this.imgUrl,
+        date: this.date,
       };
       this.$emit("createRecipe", newRecipe);
+    },
+    today() {
+      var today = new Date();
+      var dd = String(today.getDate()).padStart(2, "0");
+      var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+      var yyyy = today.getFullYear();
+
+      return yyyy + "-" + mm + "-" + dd;
     },
   },
 };

@@ -10,17 +10,20 @@
     </v-img>
 
     <v-card-subtitle class="mt-1 pl-1">
-      <v-chip
-        v-for="tag in content.tags"
-        :key="tag"
-        class="ma-1"
-        :label="filterTags.includes(tag)"
-        :color="filterTags.includes(tag) ? 'primary' : ''"
-      >
-        {{ tag }}
-      </v-chip>
+      {{ content.date }}
     </v-card-subtitle>
     <v-card-text class="pt-0">
+      <v-chip-group disabled>
+        <v-chip
+          v-for="tag in content.tags"
+          :key="tag"
+          class="ma-1"
+          :label="filterTags.includes(tag)"
+          :color="filterTags.includes(tag) ? 'primary' : ''"
+        >
+          {{ tag }}
+        </v-chip>
+      </v-chip-group>
       <div
         class="text-subtitle-1"
         v-for="(line, i) in content.body.split('\n').slice(0, 4)"
