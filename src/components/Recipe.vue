@@ -13,33 +13,48 @@
       {{ content.date }}
     </v-card-subtitle>
     <v-card-text class="pt-0">
-      <v-chip-group disabled>
-        <v-chip
-          v-for="tag in content.tags"
-          :key="tag"
-          class="ma-1"
-          :label="filterTags.includes(tag)"
-          :color="filterTags.includes(tag) ? 'primary' : ''"
-        >
-          {{ tag }}
-        </v-chip>
-      </v-chip-group>
-      <div
-        class="text-subtitle-1"
-        v-for="(line, i) in content.body.split('\n').slice(0, 4)"
-        :key="i"
-        :style="{ opacity: (4.5 - i) / 6 }"
+      <!-- <v-chip-group disabled> -->
+      <v-chip
+        v-for="tag in content.tags"
+        :key="tag"
+        class="ma-1"
+        :label="filterTags.includes(tag)"
+        :color="filterTags.includes(tag) ? 'primary' : ''"
       >
-        {{ line }}
+        {{ tag }}
+      </v-chip>
+      <!-- </v-chip-group> -->
+      <div v-if="expanded">
+        <div
+          class="text-subtitle-1"
+          v-for="(line, i) in content.body.split('\n')"
+          :key="i"
+        >
+          {{ line + "⠀" }}
+        </div>
+      </div>
+      <div v-else>
+        <div
+          class="text-subtitle-1"
+          v-for="(line, i) in content.body.split('\n').slice(0, 4)"
+          :key="i"
+          :style="{ opacity: (4.5 - i) / 6 }"
+        >
+          {{ line + "⠀" }}
+        </div>
       </div>
     </v-card-text>
+    <v-card-actions v-if="expanded">
+      <v-spacer />
+      <v-btn variant="tonal" color="warning">Edit</v-btn>
+    </v-card-actions>
   </v-card>
 </template>
 
 <script>
 export default {
   name: "Recipe",
-  props: ["content", "filterTags"],
+  props: { content: Object, filterTags: Array, expanded: Boolean },
   methods: {
     sortTags() {
       this.content.tags.sort((a, b) => {

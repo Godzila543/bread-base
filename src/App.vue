@@ -3,7 +3,7 @@
     <v-app-bar app color="primary" permanent>
       <v-app-bar-title>Bread Base (The Bread Database)</v-app-bar-title>
       <template v-slot:append>
-        <v-btn icon="mdi-theme-light-dark" @click="light = !light"></v-btn>
+        <v-btn icon="mdi-theme-light-dark" @click="themeToggle"></v-btn>
       </template>
     </v-app-bar>
     <v-navigation-drawer rail expand-on-hover color="accent">
@@ -47,6 +47,7 @@
 <script>
 const BASE_KEY = "breadbase-base";
 const TAGS_KEY = "breadbase-tags";
+const THEME_KEY = "breadbase-theme";
 
 import HelloWorld from "./components/HelloWorld.vue";
 import Drawer from "./components/Drawer.vue";
@@ -67,7 +68,7 @@ export default {
     filterTags: [],
     allTags: JSON.parse(localStorage.getItem(TAGS_KEY) || "[]"),
     content: "",
-    light: true,
+    light: JSON.parse(localStorage.getItem(THEME_KEY) || "true"),
     tab: "recipes",
     recipes: JSON.parse(localStorage.getItem(BASE_KEY) || "[]"),
     //
@@ -81,6 +82,10 @@ export default {
     createTag(t) {
       this.allTags.push(t);
       localStorage.setItem(TAGS_KEY, JSON.stringify(this.allTags));
+    },
+    themeToggle() {
+      this.light = !this.light;
+      localStorage.setItem(THEME_KEY, this.light);
     },
   },
 };
